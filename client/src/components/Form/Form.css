@@ -1,0 +1,23 @@
+.form {
+  margin: 100px 0 0 100px;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  gap: 20px;
+}
+
+.form_input {
+  background-color: #fff;
+  padding: 10px;
+  border: none;
+  color: #000;
+}
+
+.form_button {
+  text-transform: uppercase;
+  background-color: 	#C0C0C0;
+  color: #000;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
