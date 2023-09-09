@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Card from './components/Card/Card';
@@ -14,7 +14,16 @@ function App() {
   }, []);
 
   return (
-      <Card />
+    <Routes>
+      <Route
+        path='/login'
+        element={<Login />}
+      />
+      <Route
+        path='/'
+        element={<Card />}
+      />
+    </Routes>
   );
 }
 
