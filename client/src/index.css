@@ -6,3 +6,5 @@ body {
 
 @import './components/Form/Form.css';
 @import './components/Card/Card.css';
+@import './pages/Main/Main.css';
+@import './components/SearchForm/SearchForm.css';

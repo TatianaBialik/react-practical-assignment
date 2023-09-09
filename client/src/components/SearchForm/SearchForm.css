@@ -1,0 +1,25 @@
+.search-form {
+  display: flex;
+  align-self: center;
+}
+
+.search-form_input {
+  border: none;
+  outline: none;
+  padding: 10px;
+  width: 200px;
+  font-size: 18px;
+}
+
+.search-form_button {
+  text-transform: uppercase;
+  border: none;
+  padding: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.search-form_button:hover {
+  background-color: #fff;
+}

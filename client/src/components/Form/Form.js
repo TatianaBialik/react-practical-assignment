@@ -21,7 +21,8 @@ export default function Form() {
         name="username"
         className="form_input"
         placeholder="Enter your username"
-        ref={usernameRef} />
+        ref={usernameRef}
+        required />
       <button type="submit" className="form_button">login</button>
     </form>
   )

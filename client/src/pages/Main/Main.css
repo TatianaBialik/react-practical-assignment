@@ -1,0 +1,29 @@
+.main {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.main_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main_title {
+  margin: 0;
+  font-weight: normal;
+}
+
+.main_logout-button {
+  background-color: antiquewhite;
+  border: none;
+  font-size: 18px;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.main_logout-button:hover {
+  background-color: #fff;
+}

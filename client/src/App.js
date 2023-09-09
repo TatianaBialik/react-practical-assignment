@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
+import Main from './pages/Main/Main';
 import Card from './components/Card/Card';
 import './App.css';
 
@@ -16,12 +17,12 @@ function App() {
   return (
     <Routes>
       <Route
-        path='/login'
+        path='/'
         element={<Login />}
       />
       <Route
-        path='/'
-        element={<Card />}
+        path='/gallery'
+        element={<Main/>}
       />
     </Routes>
   );

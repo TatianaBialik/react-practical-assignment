@@ -10,7 +10,7 @@ export const loginSlice = createSlice({
   reducers: {
     logout: (state) => {
       localStorage.removeItem('username');
-      state = {...initialState};
+      state.username = null;
     },
     login: (state, { payload }) => {
       localStorage.setItem('username', payload.username);

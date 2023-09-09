@@ -9,10 +9,10 @@ export default function Login() {
 
   useEffect(() => {
     if (username) {
-      navigate('/');
+      navigate('/gallery');
     }
   }, [username]);
-  
+
   return (
     <div className="login">
       <h1>login</h1>
