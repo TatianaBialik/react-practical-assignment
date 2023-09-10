@@ -1,0 +1,16 @@
+.modal-window-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: #000;
+}
+
+.modal-window-form_input {
+  padding: 10px;
+}
+
+.modal-window-form_button {
+  cursor: pointer;
+  padding: 10px;
+  font-size: 18px;
+}

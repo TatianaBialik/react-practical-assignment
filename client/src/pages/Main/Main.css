@@ -27,3 +27,11 @@
 .main_logout-button:hover {
   background-color: #fff;
 }
+
+.main_add-post-button {
+  padding: 10px;
+  width: 10%;
+  align-self: center;
+  cursor: pointer;
+  font-size: 20px;
+}

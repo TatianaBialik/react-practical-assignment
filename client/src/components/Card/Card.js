@@ -1,8 +1,17 @@
+import { useDispatch } from 'react-redux';
+import { openEditPostModal } from '../../services/modal/modalSlice';
+
 export default function Card(props) {
+  const dispatch = useDispatch();
+
+  const handleOpenEditPost = () => {
+    dispatch(openEditPostModal());
+  }
   return (
     <div className="card">
       <div className="card_header">
         <p className="card_text card_date">09/09/2023</p>
+        <button className="card_edit-button" onClick={handleOpenEditPost}>Edit</button>
         <button className="card_delete-button">Delete</button>
       </div>
 

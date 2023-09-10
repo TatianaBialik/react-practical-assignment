@@ -8,3 +8,5 @@ body {
 @import './components/Card/Card.css';
 @import './pages/Main/Main.css';
 @import './components/SearchForm/SearchForm.css';
+@import './components/Modal/Modal.css';
+@import './components/ModalWindowForm/ModalWindowForm.css';
