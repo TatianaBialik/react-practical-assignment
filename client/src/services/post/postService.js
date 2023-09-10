@@ -35,9 +35,27 @@ const getPostsByPage = async (pageNumber) => {
   return data;
 }
 
+const deletePost = async (postId) => {
+  const response = await fetch(
+    `${MAIN_URL}/post/${postId}`,
+    {
+      method: 'DELETE'
+    }
+  );
+
+  const data = await response.json();
+
+  if (response.status !== 200) {
+    throw new Error(data.message);
+  }
+
+  return data;
+}
+
 const postService = {
   createPost,
-  getPostsByPage
+  getPostsByPage,
+  deletePost
 };
 
 export default postService;

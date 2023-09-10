@@ -51,7 +51,7 @@ export default function Main() {
         className='main_add-post-button'
         onClick={handleOpenAddPost}>Add Post</button>
       <SearchForm />
-      <Gallery />
+      <Gallery cards={posts} />
 
       <Modal
         isOpen={isAddPostModalOpen}
