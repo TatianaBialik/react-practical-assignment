@@ -45,6 +45,18 @@ const createPost = createAsyncThunk(
     }
   );
 
+  const updatePost = createAsyncThunk(
+    'post/updatePost',
+    async(data, { getState, rejectWithValue }) => {
+      try {
+        return await postService.updatePost(data);
+      } catch(err) {
+        console.log(err);
+        return rejectWithValue(err);
+      }
+    }
+  )
+
 export const postSlice = createSlice({
   name: "post",
   initialState,
@@ -55,7 +67,7 @@ export const postSlice = createSlice({
       state.error = false;
     },
     [createPost.fulfilled]: (state, { payload }) => {
-      state.posts.push(payload);
+      state.posts.push(payload.result);
       state.loading = false;
       state.error = false;
       state.success = true;
@@ -99,8 +111,28 @@ export const postSlice = createSlice({
       state.error = true;
       state.message = payload.error;
     },
+    [updatePost.pending]: (state) => {
+      state.loading = true;
+      state.error = false;
+    },
+    [updatePost.fulfilled]: (state, { payload }) => {
+      state.posts = state.posts.map(post => {
+        if (post.id === payload.result.id)
+          return payload.result;
+        return post;
+      });
+      state.loading = false;
+      state.error = false;
+      state.success = true;
+    },
+    [updatePost.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
+      state.message = payload.error;
+    },
   },
 });
 
-export { createPost, getPostsByPage, deletePost };
+export { createPost, getPostsByPage, deletePost, updatePost };
 export default postSlice.reducer;

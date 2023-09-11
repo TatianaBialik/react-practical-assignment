@@ -5,11 +5,14 @@ import { useSelector, useDispatch } from 'react-redux';
 
 export default function ModalWindowForm(props) {
   const { values, handleChange } = useForm({});
-  const dispatch = useDispatch();
+  const openedId = useSelector((state) => state.modal.openedId);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.onSubmit(values);
+    const data = {...values};
+    if (openedId)
+      data.id = openedId;
+    props.onSubmit(data);
   }
 
   return (
@@ -23,7 +26,8 @@ export default function ModalWindowForm(props) {
             name={input.name}
             onChange={handleChange}
             id={input.name}
-            placeholder={input.placeholder} />
+            placeholder={input.placeholder}
+            defaultValue={input.value ? input.value : ''} />
         </React.Fragment>
       ))}
       <button type="submit" className="modal-window-form_button">{props.buttonText}</button>

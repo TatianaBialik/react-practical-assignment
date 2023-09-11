@@ -15,7 +15,9 @@ export default function Gallery(props) {
           username={card.username}
           date={getDate(card.date)}
           votes={(card.likes.length - card.dislikes.length)}
-          id={card.id} />
+          id={card.id}
+          likes={card.likes}
+          dislikes={card.dislikes} />
       ))}
     </div>
   )

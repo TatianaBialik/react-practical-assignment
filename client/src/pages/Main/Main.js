@@ -1,14 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Gallery, SearchForm, Modal, ModalWindowForm } from '../../components';
 import { logout } from '../../services/login/loginSlice';
-import { openAddPostModal } from '../../services/modal/modalSlice';
-import { createPost, getPostsByPage } from '../../services/post/postSlice';
+import { openAddPostModal, closeAllModals } from '../../services/modal/modalSlice';
+import { createPost, getPostsByPage, updatePost } from '../../services/post/postSlice';
 
 export default function Main() {
   const username = useSelector((state) => state.login.username);
-  const posts = useSelector((state) => state.post.posts);
+  const posts = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,7 +19,6 @@ export default function Main() {
 
   useEffect(() => {
     dispatch(getPostsByPage(1));
-    console.log(posts[0]);
   }, [dispatch]);
 
   useEffect(() => {
@@ -39,6 +38,16 @@ export default function Main() {
   const handleCreatePost = (values) => {
     values.username = username;
     dispatch(createPost({...values}));
+    if (posts.success) {
+      dispatch(closeAllModals());
+    }
+  }
+
+  const handleUpdatePost = (data) => {
+    dispatch(updatePost({ ...data }));
+    if (posts.success) {
+      dispatch(closeAllModals());
+    }
   }
 
   return (
@@ -51,7 +60,7 @@ export default function Main() {
         className='main_add-post-button'
         onClick={handleOpenAddPost}>Add Post</button>
       <SearchForm />
-      <Gallery cards={posts} />
+      <Gallery cards={posts.posts} />
 
       <Modal
         isOpen={isAddPostModalOpen}
@@ -73,7 +82,18 @@ export default function Main() {
             { type: 'text', name: 'title', placeholder: 'Enter post title', labelText: 'Title' },
             { type: 'file', name: 'image', placeholder: 'Upload file', labelText: 'Upload file' }
           ]}
-          buttonText={'Edit'} />
+          buttonText={'Edit'}
+          onSubmit={handleUpdatePost } />
+      </Modal>
+
+      <Modal
+      isOpen={isAddCommentModalOpen}
+      name={'Add comment'}>
+        <ModalWindowForm
+        inputs={[
+          { type: 'text', name: 'comment', placeholder: 'Enter comment', labelText: 'Comment text' },
+        ]}
+        buttonText={'Add'} />
       </Modal>
     </main>
   )
