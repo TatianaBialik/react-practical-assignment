@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { Gallery, SearchForm, Modal, ModalWindowForm } from '../../components';
 import { logout } from '../../services/login/loginSlice';
 import { openAddPostModal, closeAllModals } from '../../services/modal/modalSlice';
-import { createPost, getPostsByPage, updatePost } from '../../services/post/postSlice';
+import { createPost, getPostsByPage, updatePost, createComment } from '../../services/post/postSlice';
 
 export default function Main() {
   const username = useSelector((state) => state.login.username);
@@ -37,7 +37,7 @@ export default function Main() {
 
   const handleCreatePost = (values) => {
     values.username = username;
-    dispatch(createPost({...values}));
+    dispatch(createPost({ ...values }));
     if (posts.success) {
       dispatch(closeAllModals());
     }
@@ -45,6 +45,13 @@ export default function Main() {
 
   const handleUpdatePost = (data) => {
     dispatch(updatePost({ ...data }));
+    if (posts.success) {
+      dispatch(closeAllModals());
+    }
+  }
+
+  const handleCreateComment = (data) => {
+    dispatch(createComment({ ...data }));
     if (posts.success) {
       dispatch(closeAllModals());
     }
@@ -83,17 +90,33 @@ export default function Main() {
             { type: 'file', name: 'image', placeholder: 'Upload file', labelText: 'Upload file' }
           ]}
           buttonText={'Edit'}
-          onSubmit={handleUpdatePost } />
+          onSubmit={handleUpdatePost} />
       </Modal>
 
       <Modal
-      isOpen={isAddCommentModalOpen}
-      name={'Add comment'}>
+        isOpen={isAddCommentModalOpen}
+        name={'Add comment'}>
         <ModalWindowForm
-        inputs={[
-          { type: 'text', name: 'comment', placeholder: 'Enter comment', labelText: 'Comment text' },
-        ]}
-        buttonText={'Add'} />
+          inputs={[
+            { type: 'text', name: 'text', placeholder: 'Enter comment', labelText: 'Comment text' },
+          ]}
+          username={username}
+          modalType={'comment'}
+          buttonText={'Add'}
+          onSubmit={handleCreateComment} />
+      </Modal>
+
+      <Modal
+        isOpen={isEditCommentModalOpen}
+        name={'Edit comment'}>
+        <ModalWindowForm
+          inputs={[
+            { type: 'text', name: 'text', placeholder: 'Enter comment', labelText: 'Comment text' },
+          ]}
+          username={username}
+          modalType={'comment'}
+          buttonText={'Edit'}
+          onSubmit={handleCreateComment} />
       </Modal>
     </main>
   )

@@ -1,0 +1,15 @@
+.comment {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #eeeeee
+}
+
+.comment_title {
+  margin: 0;
+}
+
+.comment_text {
+  margin: 0;
+  word-wrap: break-word
+}

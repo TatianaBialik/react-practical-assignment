@@ -23,14 +23,16 @@ export const modalSlice = createSlice({
       state.isEditCommentModalOpen = true;
       state.openedId = payload;
     },
-    openAddCommentModal: (state) => {
+    openAddCommentModal: (state, { payload }) => {
       state.isAddCommentModalOpen = true;
+      state.openedId = payload;
     },
     closeAllModals: (state) => {
       state.isEditPostModalOpen = false;
       state.isAddPostModalOpen = false;
       state.isEditCommentModalOpen = false;
       state.isAddCommentModalOpen = false;
+      state.openedId = null;
     }
   }
 });

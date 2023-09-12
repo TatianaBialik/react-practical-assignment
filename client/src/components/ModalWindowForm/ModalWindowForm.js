@@ -9,9 +9,13 @@ export default function ModalWindowForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = {...values};
+    const data = { ...values };
     if (openedId)
-      data.id = openedId;
+      if (props.modalType === 'comment')
+        data.postId = openedId;
+      else data.id = openedId;
+    if (props.username)
+      data.username = props.username;
     props.onSubmit(data);
   }
 

@@ -1,6 +1,6 @@
 import { MAIN_URL } from "../../utils/constants";
 
-const createPost = async (post, username) => {
+const createPost = async (post) => {
   const response = await fetch(
     `${MAIN_URL}/post/`,
     {
@@ -75,11 +75,71 @@ const updatePost = async (values) => {
   return data;
 }
 
+const createComment = async(values) => {
+  const response = await fetch(
+    `${MAIN_URL}/comment`,
+    { 
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values)
+    }
+  );
+
+  const data = await response.json();
+
+  if (response.status !== 201) {
+    throw new Error(data.message);
+  }
+
+  return data;
+}
+
+const deleteComment = async(values) => {
+  const response = await fetch(
+    `${MAIN_URL}/comment/${values.id}`,
+    { method: 'DELETE' }
+  );
+
+  const data = await response.json();
+
+  if (response.status !== 200) {
+    throw new Error(data.message);
+  }
+
+  return data;
+}
+
+const updateComment = async(values) => {
+  const response = await fetch(
+    `${MAIN_URL}/comment/${values.id}`,
+    {
+      method: 'PUT',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        text: values.text,
+        likes: values.likes,
+        dislikes: values.dislikes
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  if (response.status !== 200) {
+    throw new Error(data.message);
+  }
+
+  return data;
+}
+
 const postService = {
   createPost,
   getPostsByPage,
   deletePost,
-  updatePost
+  updatePost,
+  createComment,
+  deleteComment,
+  updateComment,
 };
 
 export default postService;

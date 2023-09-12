@@ -33,29 +33,66 @@ const createPost = createAsyncThunk(
     }
   });
 
-  const deletePost = createAsyncThunk(
-    'post/deletePost',
-    async(postId, { getState, rejectWithValue }) => {
-      try {
-        return await postService.deletePost(postId);
-      } catch(err) {
-        console.log(err);
-        return rejectWithValue(err);
-      }
+const deletePost = createAsyncThunk(
+  'post/deletePost',
+  async (postId, { getState, rejectWithValue }) => {
+    try {
+      return await postService.deletePost(postId);
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err);
     }
-  );
+  }
+);
 
-  const updatePost = createAsyncThunk(
-    'post/updatePost',
-    async(data, { getState, rejectWithValue }) => {
-      try {
-        return await postService.updatePost(data);
-      } catch(err) {
-        console.log(err);
-        return rejectWithValue(err);
-      }
+const updatePost = createAsyncThunk(
+  'post/updatePost',
+  async (data, { getState, rejectWithValue }) => {
+    try {
+      return await postService.updatePost(data);
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err);
     }
-  )
+  }
+);
+
+const createComment = createAsyncThunk(
+  'post/createComment',
+  async (data, { getState, rejectWithValue }) => {
+    try {
+      return await postService.createComment(data);
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err);
+    }
+  }
+)
+
+const deleteComment = createAsyncThunk(
+  'post/deleteComment',
+  async (data, { getState, rejectWithValue }) => {
+    try {
+      return await postService.deleteComment(data);
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err);
+    }
+  }
+);
+
+const updateComment = createAsyncThunk(
+  'post/updateComment',
+  async (data, { getState, rejectWithValue }) => {
+    try {
+      return await postService.updateComment(data);
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err);
+    }
+  }
+
+)
 
 export const postSlice = createSlice({
   name: "post",
@@ -131,8 +168,87 @@ export const postSlice = createSlice({
       state.error = true;
       state.message = payload.error;
     },
+    [createComment.pending]: (state) => {
+      state.loading = true;
+      state.error = false;
+    },
+    [createComment.fulfilled]: (state, { payload }) => {
+      state.posts = state.posts.map(post => {
+        if (post.id === payload.result.postId) {
+          const postTemp = { ...post };
+          if (!postTemp.comments)
+            postTemp.comments = [];
+          postTemp.comments.push(payload.result);
+          return postTemp;
+        }
+        return post;
+      });
+      state.loading = false;
+      state.error = false;
+      state.success = true;
+    },
+    [createComment.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
+      state.message = payload.error;
+    },
+    [deleteComment.pending]: (state) => {
+      state.loading = true;
+      state.error = false;
+    },
+    [deleteComment.fulfilled]: (state, { payload }) => {
+      state.posts = state.posts.map(post => {
+        if (post.id === payload.result.postId) {
+          post.comments = post.comments.filter(comment => comment.id !== payload.result.id);
+        }
+        return post;
+      });
+      state.loading = false;
+      state.error = false;
+      state.success = true;
+    },
+    [deleteComment.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
+      state.message = payload.error;
+    },
+    [updateComment.pending]: (state) => {
+      state.loading = true;
+      state.error = false;
+    },
+    [updateComment.fulfilled]: (state, { payload }) => {
+      state.posts = state.posts.map(post => {
+        if (post.id === payload.result.postId) {
+          post.comments.map((comment) => {
+            if (comment.id === payload.result.id)
+              return payload.result;
+            return comment;
+          });
+        }
+        return post;
+      });
+      state.loading = false;
+      state.error = false;
+      state.success = true;
+    },
+    [updateComment.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
+      state.message = payload.error;
+    },
   },
 });
 
-export { createPost, getPostsByPage, deletePost, updatePost };
+export {
+  createPost,
+  getPostsByPage,
+  deletePost,
+  updatePost,
+  createComment,
+  deleteComment,
+  updateComment,
+};
 export default postSlice.reducer;
