@@ -15,7 +15,6 @@ export default function PostModalWindowForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(values);
     const data = { ...values };
     data.id = openedId;
 

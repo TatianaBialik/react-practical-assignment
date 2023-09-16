@@ -11,6 +11,7 @@ export default function Main() {
   const posts = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [page, setPage] = useState(1);
 
   const isAddPostModalOpen = useSelector((state) => state.modal.isAddPostModalOpen);
   const isEditPostModalOpen = useSelector((state) => state.modal.isEditPostModalOpen);
@@ -64,6 +65,16 @@ export default function Main() {
     }
   }
 
+  const handleNextPageLoading = () => {
+    dispatch(getPostsByPage(page + 1));
+    setPage(page + 1);
+  }
+
+  const handlePrevPageLoading = () => {
+    dispatch(getPostsByPage(page - 1));
+    setPage(page - 1);
+  }
+
   return (
     <main className='main'>
       <header className='main_header'>
@@ -75,6 +86,22 @@ export default function Main() {
         onClick={handleOpenAddPost}>Add Post</button>
       <SearchForm />
       <Gallery cards={posts.posts} />
+
+      <div className='main_paginator'>
+        <button
+          className='main_paginator-button'
+          style={{ display: page === 1 && 'none' }}
+          onClick={handlePrevPageLoading}>
+          Previous page
+        </button>
+        <p className='main_paginator-page-number' style={{ display: posts.totalPages === 1 && 'none' }}>{`${page}/${posts.totalPages}`}</p>
+        <button
+          className='main_paginator-button'
+          style={{ display: page === posts.totalPages && 'none' }}
+          onClick={handleNextPageLoading}>
+          Next page
+        </button>
+      </div>
 
       <Modal
         isOpen={isAddPostModalOpen}

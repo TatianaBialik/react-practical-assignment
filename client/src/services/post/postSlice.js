@@ -71,7 +71,7 @@ const searchPosts = createAsyncThunk(
 
 const uploadPicture = createAsyncThunk(
   'post/uploadPicture',
-  async(data, { getState, rejectWithValue }) => {
+  async (data, { getState, rejectWithValue }) => {
     try {
       return await postService.uploadPicture(data);
     } catch (err) {
@@ -128,7 +128,7 @@ export const postSlice = createSlice({
       state.error = false;
     },
     [createPost.fulfilled]: (state, { payload }) => {
-      state.posts.push(payload.result);
+      if (state.posts.length < 9) state.posts.push(payload.result);
       state.loading = false;
       state.error = false;
       state.success = true;
@@ -178,8 +178,13 @@ export const postSlice = createSlice({
     },
     [updatePost.fulfilled]: (state, { payload }) => {
       state.posts = state.posts.map(post => {
-        if (post.id === payload.result.id)
-          return payload.result;
+        if (post.id === payload.result.id) {
+          const newPost = post;
+          newPost.title = payload.result.title;
+          newPost.likes = payload.result.likes;
+          newPost.dislikes = payload.result.dislikes;
+          return newPost;
+        }
         return post;
       });
       state.loading = false;
