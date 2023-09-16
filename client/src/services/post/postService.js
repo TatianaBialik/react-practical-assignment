@@ -75,6 +75,42 @@ const updatePost = async (values) => {
   return data;
 }
 
+const searchPosts = async (keyword) => {
+  const response = await fetch(
+    `${MAIN_URL}/post/search/${keyword}`
+  );
+
+  const data = await response.json();
+
+  if (response.status !== 200) {
+    throw new Error(data.message);
+  }
+
+  return data;
+}
+
+const uploadPicture = async (data) => {
+  const formData = new FormData();
+  formData.append('image', data.image);
+  const response = await fetch(
+    `${MAIN_URL}/post/${data.id}/picture`,
+    {
+      method: 'POST',
+      body: formData
+    }
+  );
+
+  const res = await response.json();
+
+  if (response.status !== 200) {
+    throw new Error(res.message);
+  }
+
+  return res;
+}
+
+/* COMMENTS CONTROLLERS */
+
 const createComment = async(values) => {
   const response = await fetch(
     `${MAIN_URL}/comment`,
@@ -137,6 +173,8 @@ const postService = {
   getPostsByPage,
   deletePost,
   updatePost,
+  searchPosts,
+  uploadPicture,
   createComment,
   deleteComment,
   updateComment,

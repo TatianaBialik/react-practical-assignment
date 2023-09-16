@@ -57,6 +57,30 @@ const updatePost = createAsyncThunk(
   }
 );
 
+const searchPosts = createAsyncThunk(
+  'post/search',
+  async (data, { getState, rejectWithValue }) => {
+    try {
+      return await postService.searchPosts(data);
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err);
+    }
+  }
+)
+
+const uploadPicture = createAsyncThunk(
+  'post/uploadPicture',
+  async(data, { getState, rejectWithValue }) => {
+    try {
+      return await postService.uploadPicture(data);
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err);
+    }
+  }
+)
+
 const createComment = createAsyncThunk(
   'post/createComment',
   async (data, { getState, rejectWithValue }) => {
@@ -168,6 +192,42 @@ export const postSlice = createSlice({
       state.error = true;
       state.message = payload.error;
     },
+    [searchPosts.pending]: (state) => {
+      state.loading = true;
+      state.error = false;
+    },
+    [searchPosts.fulfilled]: (state, { payload }) => {
+      state.posts = payload.result;
+      state.loading = false;
+      state.error = false;
+      state.success = true;
+    },
+    [searchPosts.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
+      state.message = payload.error;
+    },
+    [uploadPicture.pending]: (state) => {
+      state.loading = true;
+      state.error = false;
+    },
+    [uploadPicture.fulfilled]: (state, { payload }) => {
+      state.posts = state.posts.map(post => {
+        if (post.id === payload.result.id)
+          return payload.result;
+        return post;
+      });
+      state.loading = false;
+      state.error = false;
+      state.success = true;
+    },
+    [uploadPicture.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.success = false;
+      state.error = true;
+      state.message = payload.error;
+    },
     [createComment.pending]: (state) => {
       state.loading = true;
       state.error = false;
@@ -221,9 +281,10 @@ export const postSlice = createSlice({
     [updateComment.fulfilled]: (state, { payload }) => {
       state.posts = state.posts.map(post => {
         if (post.id === payload.result.postId) {
-          post.comments.map((comment) => {
-            if (comment.id === payload.result.id)
+          post.comments = post.comments.map((comment) => {
+            if (comment.id === payload.result.id) {
               return payload.result;
+            }
             return comment;
           });
         }
@@ -247,6 +308,7 @@ export {
   getPostsByPage,
   deletePost,
   updatePost,
+  searchPosts,
   createComment,
   deleteComment,
   updateComment,

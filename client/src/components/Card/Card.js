@@ -52,7 +52,7 @@ export default function Card(props) {
       </div>
 
       <h2 className="card_title">{props.title}</h2>
-      <img className="card_picture" src={props.imgSrc ? props.imgSrc : 'https://img.freepik.com/free-photo/red-white-cat-i-white-studio_155003-13189.jpg?w=2000'} />
+      <img className="card_picture" src={props.imageSrc ? props.imageSrc : 'https://img.freepik.com/free-photo/red-white-cat-i-white-studio_155003-13189.jpg?w=2000'} />
 
       <div className="card_info">
         <p className="card_text card_username">{props.username}</p>
@@ -74,7 +74,9 @@ export default function Card(props) {
               text={comment.text}
               username={comment.username}
               id={comment.id}
-              postId={comment.postId} />
+              postId={comment.postId}
+              likes={comment.likes} 
+              dislikes={comment.dislikes} />
           ))
           : <p>No comments yet</p>}
       </div>

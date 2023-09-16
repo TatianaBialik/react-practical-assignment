@@ -18,7 +18,8 @@ export default function Gallery(props) {
           id={card.id}
           likes={card.likes}
           dislikes={card.dislikes}
-          comments={card.comments} />
+          comments={card.comments}
+          imageSrc={card.imageSrc} />
       ))}
     </div>
   )

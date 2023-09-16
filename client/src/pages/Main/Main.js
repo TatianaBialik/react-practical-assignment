@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { Gallery, SearchForm, Modal, ModalWindowForm } from '../../components';
+import { Gallery, SearchForm, Modal, ModalWindowForm, PostModalWindowForm } from '../../components';
 import { logout } from '../../services/login/loginSlice';
 import { openAddPostModal, closeAllModals } from '../../services/modal/modalSlice';
-import { createPost, getPostsByPage, updatePost, createComment } from '../../services/post/postSlice';
+import { createPost, getPostsByPage, updatePost, createComment, updateComment } from '../../services/post/postSlice';
 
 export default function Main() {
   const username = useSelector((state) => state.login.username);
@@ -57,6 +57,13 @@ export default function Main() {
     }
   }
 
+  const handleUpdateComment = (data) => {
+    dispatch(updateComment({ ...data }));
+    if (posts.success) {
+      dispatch(closeAllModals());
+    }
+  }
+
   return (
     <main className='main'>
       <header className='main_header'>
@@ -72,11 +79,7 @@ export default function Main() {
       <Modal
         isOpen={isAddPostModalOpen}
         name={'Add post'}>
-        <ModalWindowForm
-          inputs={[
-            { type: 'text', name: 'title', placeholder: 'Enter post title', labelText: 'Title' },
-            { type: 'file', name: 'image', placeholder: 'Upload file', labelText: 'Upload file' }
-          ]}
+        <PostModalWindowForm
           buttonText={'Add'}
           onSubmit={handleCreatePost} />
       </Modal>
@@ -84,11 +87,7 @@ export default function Main() {
       <Modal
         isOpen={isEditPostModalOpen}
         name={'Edit post'}>
-        <ModalWindowForm
-          inputs={[
-            { type: 'text', name: 'title', placeholder: 'Enter post title', labelText: 'Title' },
-            { type: 'file', name: 'image', placeholder: 'Upload file', labelText: 'Upload file' }
-          ]}
+        <PostModalWindowForm
           buttonText={'Edit'}
           onSubmit={handleUpdatePost} />
       </Modal>
@@ -114,9 +113,8 @@ export default function Main() {
             { type: 'text', name: 'text', placeholder: 'Enter comment', labelText: 'Comment text' },
           ]}
           username={username}
-          modalType={'comment'}
           buttonText={'Edit'}
-          onSubmit={handleCreateComment} />
+          onSubmit={handleUpdateComment} />
       </Modal>
     </main>
   )
