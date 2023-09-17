@@ -20,7 +20,8 @@ export default function Gallery(props) {
           dislikes={card.dislikes}
           comments={card.comments}
           imageSrc={card.imageSrc}
-          index={index} />
+          index={index}
+          page={props.page} />
       ))}
     </div>
   )

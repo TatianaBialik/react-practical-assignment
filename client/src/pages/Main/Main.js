@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { Gallery, SearchForm, Modal, CommentModalWindowForm, PostModalWindowForm } from '../../components';
+import { Gallery, SearchForm, Modal, CommentModalWindowForm, PostModalWindowForm, Button } from '../../components';
 import { logout } from '../../services/login/loginSlice';
 import { openAddPostModal, closeAllModals } from '../../services/modal/modalSlice';
 import { createPost, getPostsByPage, updatePost, createComment, updateComment } from '../../services/post/postSlice';
@@ -81,28 +81,25 @@ export default function Main() {
     <main className='main'>
       <header className='main_header'>
         <h1 className='main_title'>Hello, {username}</h1>
-        <button className='main_logout-button' onClick={handleLogout}>Logout</button>
+        <Button onClick={handleLogout} text='Logout' />
       </header>
-      <button
+      <Button
         className='main_add-post-button'
-        onClick={handleOpenAddPost}>Add Post</button>
+        onClick={handleOpenAddPost}
+        text='Add post'/>
       <SearchForm />
-      <Gallery cards={posts.posts} />
+      <Gallery cards={posts.posts} page={page} />
 
       <div className='main_paginator'>
-        <button
-          className='main_paginator-button'
+        <Button
           style={{ display: page === 1 && 'none' }}
-          onClick={handlePrevPageLoading}>
-          Previous page
-        </button>
+          onClick={handlePrevPageLoading}
+          text='Previous page' />
         <p className='main_paginator-page-number' style={{ display: posts.totalPages === 1 && 'none' }}>{`${page}/${posts.totalPages}`}</p>
-        <button
-          className='main_paginator-button'
+        <Button
           style={{ display: page === posts.totalPages && 'none' }}
-          onClick={handleNextPageLoading}>
-          Next page
-        </button>
+          onClick={handleNextPageLoading}
+          text='Next page' />
       </div>
 
       {isAddPostModalOpen

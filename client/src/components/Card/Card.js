@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { openEditPostModal, openAddCommentModal } from '../../services/modal/modalSlice';
-import { deletePost, updatePost } from '../../services/post/postSlice';
-import Comment from '../Comment/Comment';
+import { deletePost, updatePost, getPostsByPage } from '../../services/post/postSlice';
+import { Button, Comment } from '../';
 import { useEffect, useState } from 'react';
 
 export default function Card(props) {
@@ -19,6 +19,7 @@ export default function Card(props) {
 
   const handleDeleteCard = () => {
     dispatch(deletePost(props.id));
+    dispatch(getPostsByPage(props.page));
   }
 
   const handleOpenCommentsButton = () => {
@@ -46,23 +47,47 @@ export default function Card(props) {
   return (
     <div className="card">
       <div className="card_header">
+        <Button 
+        className="button_card" 
+        onClick={handleOpenEditPost} 
+        style={{ display: props.username !== username && 'none' }}
+        text='Edit' />
         <p className="card_text card_date">{props.date}</p>
-        <button className="card_edit-button" onClick={handleOpenEditPost} style={{ display: props.username !== username && 'none' }}>Edit</button>
-        <button className="card_delete-button" onClick={handleDeleteCard} style={{ display: props.username !== username && 'none' }}>Delete</button>
+        <Button 
+        className="button_card" 
+        onClick={handleDeleteCard} 
+        style={{ display: props.username !== username && 'none' }}
+        text='Delete' />
       </div>
 
       <h2 className="card_title">{props.title}</h2>
-      <img className="card_picture" src={props.imageSrc ? props.imageSrc : 'https://img.freepik.com/free-photo/red-white-cat-i-white-studio_155003-13189.jpg?w=2000'} />
+      <img 
+      className="card_picture" 
+      src={props.imageSrc 
+      ? props.imageSrc 
+      : 'https://img.freepik.com/free-photo/red-white-cat-i-white-studio_155003-13189.jpg?w=2000'} />
 
       <div className="card_info">
         <p className="card_text card_username">{props.username}</p>
-        <button className="card_like-button" onClick={handleLikeCard}>Like</button>
-        <button className="card_dislike-button" onClick={handleDislikeCard}>Dislike</button>
+        <Button 
+        className="button_card" 
+        onClick={handleLikeCard}
+        text='Like' />
+        <Button 
+        className="button_card" 
+        onClick={handleDislikeCard}
+        text='Dislike' />
         <p className="card_text card_votes">Votes: {props.votes}</p>
       </div>
       <div className="card_buttons-wrapper">
-        <button className="card_comments-button" onClick={handleOpenCommentsButton}>See comments</button>
-        <button className="card_add-comment-button" onClick={handleOpenAddComment}>Add Comment</button>
+        <Button 
+        className="button_card" 
+        onClick={handleOpenCommentsButton}
+        text='See comments' />
+        <Button 
+        className="button_card" 
+        onClick={handleOpenAddComment}
+        text='Add Comment' />
       </div>
 
       <div className="card_comments" style={{ display: !isCommentsOpened && 'none' }}>

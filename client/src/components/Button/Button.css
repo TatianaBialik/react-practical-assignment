@@ -1,0 +1,23 @@
+.button {
+  color: #fff;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 20px;
+  border: none;
+  background-color: rgb(32, 116, 88);
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.button:hover {
+  transform: scale(1.1);
+}
+
+.button_card {
+  font-size: 15px;
+  padding: 10px;
+  font-weight: 400;
+  background-color: rgb(148, 255, 219);
+  text-transform: lowercase;
+  color: #000000;
+}

@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { searchPosts } from '../../services/post/postSlice';
 import { useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
+import { Button } from '../';
 
 export default function SearchForm() {
   const keywordRef = useRef();
@@ -35,7 +36,7 @@ export default function SearchForm() {
         onChange={handleChange}
         value={keyword}
       />
-      <button className="search-form_button" type="submit">search</button>
+      <Button type="submit" text='Search' />
     </form>
   )
 }

@@ -1,6 +1,7 @@
 import { deleteComment, updateComment } from '../../services/post/postSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { openEditCommentModal } from '../../services/modal/modalSlice';
+import { Button } from '../';
 
 export default function Comment(props) {
   const username = useSelector((state) => state.login.username);
@@ -37,10 +38,24 @@ export default function Comment(props) {
       <p className="comment_title">{props.username}</p>
       <p className="comment_text">{props.text}</p>
       <div className="comment_buttons">
-        <button onClick={handleOpenEditComment} style={{ display: props.username !== username && 'none' }}>Edit</button>
-        <button onClick={handleDeleteComment} style={{ display: props.username !== username && 'none' }}>Delete</button>
-        <button onClick={handleLikeComment}>Like</button>
-        <button onClick={handleDislikeComment}>Dislike</button>
+        <Button 
+        className='button_card'
+        onClick={handleOpenEditComment} 
+        style={{ display: props.username !== username && 'none' }}
+        text='Edit' />
+        <Button 
+        className='button_card'
+        onClick={handleDeleteComment} 
+        style={{ display: props.username !== username && 'none' }}
+        text='delete' />
+        <Button 
+        className='button_card'
+        onClick={handleLikeComment}
+        text='like' />
+        <Button 
+        className='button_card'
+        onClick={handleDislikeComment}
+        text='dislike' />
         <p>{props.likes.length - props.dislikes.length}</p>
       </div>
     </div>

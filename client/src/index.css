@@ -11,4 +11,5 @@ body {
 @import './components/Modal/Modal.css';
 @import './components/ModalWindowForm/ModalWindowForm.css';
 @import './components/Gallery/Gallery.css';
-@import './components/Comment/Comment.css'
+@import './components/Comment/Comment.css';
+@import './components/Button/Button.css';
