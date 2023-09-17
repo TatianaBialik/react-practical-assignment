@@ -1,15 +1,28 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { searchPosts } from '../../services/post/postSlice';
 import { useDispatch } from 'react-redux';
+import { debounce } from 'lodash';
 
 export default function SearchForm() {
   const keywordRef = useRef();
   const dispatch = useDispatch();
+  const [keyword, setKeyword] = useState('');
+
+  const debouncedSearch = debounce((keyword) => {
+    dispatch(searchPosts(keyword));
+  }, 500);
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setKeyword(value);
+    if (value)
+      debouncedSearch(value);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (keywordRef.current.value)
-      dispatch(searchPosts(keywordRef.current.value));
+    if (keyword)
+      dispatch(searchPosts(keyword));
   }
 
   return (
@@ -19,7 +32,8 @@ export default function SearchForm() {
         className="search-form_input"
         placeholder="Input a keyword"
         name="keyword"
-        ref={keywordRef}
+        onChange={handleChange}
+        value={keyword}
       />
       <button className="search-form_button" type="submit">search</button>
     </form>

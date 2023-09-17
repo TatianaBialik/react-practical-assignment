@@ -11,7 +11,7 @@ export default function Comment(props) {
   }
 
   const handleOpenEditComment = () => {
-    dispatch(openEditCommentModal(props.id));
+    dispatch(openEditCommentModal({id: props.id, cardId: props.cardId, index: props.index, cardIndex: props.cardIndex}));
   }
 
   const handleLikeComment = () => {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 export default function useForm(inputValues) {
   const [values, setValues] = useState(inputValues);
@@ -7,5 +7,13 @@ export default function useForm(inputValues) {
     const {value, name} = event.target;
     setValues({...values, [name]: value});
   };
-  return {values, handleChange, setValues};
+
+  const resetForm = useCallback(
+    (newValues = {}) => {
+      setValues(newValues);
+    },
+    [setValues]
+  );
+
+  return {values, handleChange, resetForm, setValues};
 };

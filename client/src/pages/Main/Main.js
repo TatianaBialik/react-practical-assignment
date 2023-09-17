@@ -1,7 +1,8 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { Gallery, SearchForm, Modal, ModalWindowForm, PostModalWindowForm } from '../../components';
+import { Gallery, SearchForm, Modal, CommentModalWindowForm, PostModalWindowForm } from '../../components';
 import { logout } from '../../services/login/loginSlice';
 import { openAddPostModal, closeAllModals } from '../../services/modal/modalSlice';
 import { createPost, getPostsByPage, updatePost, createComment, updateComment } from '../../services/post/postSlice';
@@ -41,6 +42,7 @@ export default function Main() {
     dispatch(createPost({ ...values }));
     if (posts.success) {
       dispatch(closeAllModals());
+      dispatch(getPostsByPage(page));
     }
   }
 
@@ -103,46 +105,47 @@ export default function Main() {
         </button>
       </div>
 
-      <Modal
-        isOpen={isAddPostModalOpen}
-        name={'Add post'}>
-        <PostModalWindowForm
-          buttonText={'Add'}
-          onSubmit={handleCreatePost} />
-      </Modal>
+      {isAddPostModalOpen
+        && <Modal
+          isOpen={isAddPostModalOpen}
+          name={'Add post'}>
+          <PostModalWindowForm
+            type='add'
+            buttonText={'Add'}
+            onSubmit={handleCreatePost} />
+        </Modal>}
 
-      <Modal
-        isOpen={isEditPostModalOpen}
-        name={'Edit post'}>
-        <PostModalWindowForm
-          buttonText={'Edit'}
-          onSubmit={handleUpdatePost} />
-      </Modal>
 
-      <Modal
-        isOpen={isAddCommentModalOpen}
-        name={'Add comment'}>
-        <ModalWindowForm
-          inputs={[
-            { type: 'text', name: 'text', placeholder: 'Enter comment', labelText: 'Comment text' },
-          ]}
-          username={username}
-          modalType={'comment'}
-          buttonText={'Add'}
-          onSubmit={handleCreateComment} />
-      </Modal>
+      {isEditPostModalOpen
+        && <Modal
+          isOpen={isEditPostModalOpen}
+          name={'Edit post'}>
+          <PostModalWindowForm
+            type='edit'
+            buttonText={'Edit'}
+            onSubmit={handleUpdatePost} />
+        </Modal>}
 
-      <Modal
-        isOpen={isEditCommentModalOpen}
-        name={'Edit comment'}>
-        <ModalWindowForm
-          inputs={[
-            { type: 'text', name: 'text', placeholder: 'Enter comment', labelText: 'Comment text' },
-          ]}
-          username={username}
-          buttonText={'Edit'}
-          onSubmit={handleUpdateComment} />
-      </Modal>
+      {isAddCommentModalOpen
+        && <Modal
+          isOpen={isAddCommentModalOpen}
+          name={'Add comment'}>
+          <CommentModalWindowForm
+            username={username}
+            modalType={'add'}
+            buttonText={'Add'}
+            onSubmit={handleCreateComment} />
+        </Modal>}
+
+      {isEditCommentModalOpen
+        && <Modal
+          isOpen={isEditCommentModalOpen}
+          name={'Edit comment'}>
+          <CommentModalWindowForm
+            username={username}
+            buttonText={'Edit'}
+            onSubmit={handleUpdateComment} />
+        </Modal>}
     </main>
   )
 }

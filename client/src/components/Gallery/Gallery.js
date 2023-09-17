@@ -8,7 +8,7 @@ export default function Gallery(props) {
   }
   return (
     <div className="gallery">
-      {props.cards.map(card => (
+      {props.cards.map((card, index) => (
         <Card
           key={card.id}
           title={card.title}
@@ -19,7 +19,8 @@ export default function Gallery(props) {
           likes={card.likes}
           dislikes={card.dislikes}
           comments={card.comments}
-          imageSrc={card.imageSrc} />
+          imageSrc={card.imageSrc}
+          index={index} />
       ))}
     </div>
   )

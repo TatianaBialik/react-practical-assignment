@@ -10,11 +10,11 @@ export default function Card(props) {
   const [isCommentsOpened, setIsCommentsOpened] = useState(false);
 
   const handleOpenEditPost = () => {
-    dispatch(openEditPostModal(props.id));
+    dispatch(openEditPostModal({id: props.id, index: props.index}));
   }
 
   const handleOpenAddComment = () => {
-    dispatch(openAddCommentModal(props.id));
+    dispatch(openAddCommentModal({id: props.id, index: props.index}));
   }
 
   const handleDeleteCard = () => {
@@ -68,7 +68,7 @@ export default function Card(props) {
       <div className="card_comments" style={{ display: !isCommentsOpened && 'none' }}>
         <h3 className="card_comments-title">Comments</h3>
         {props.comments && props.comments.length > 0
-          ? props.comments.map((comment) => (
+          ? props.comments.map((comment, index) => (
             <Comment
               key={comment.id}
               text={comment.text}
@@ -76,7 +76,10 @@ export default function Card(props) {
               id={comment.id}
               postId={comment.postId}
               likes={comment.likes} 
-              dislikes={comment.dislikes} />
+              dislikes={comment.dislikes}
+              cardId={props.id}
+              cardIndex={props.index}
+              index={index} />
           ))
           : <p>No comments yet</p>}
       </div>

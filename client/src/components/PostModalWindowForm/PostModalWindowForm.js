@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useForm from '../../utils/useForm';
 import { createPost } from '../../services/post/postSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
 export default function PostModalWindowForm(props) {
-  const { values, handleChange } = useForm({});
   const openedId = useSelector((state) => state.modal.openedId);
+  const openedIndex = useSelector((state) => state.modal.openedIndex);
+  const posts = useSelector((state) => state.post.posts);
   const [selectedImage, setSelectedImage] = useState(null);
+  const { values, handleChange } = useForm({title: openedId ? posts[openedIndex].title : ''});
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -23,7 +25,7 @@ export default function PostModalWindowForm(props) {
 
     if (selectedImage)
       data.image = selectedImage;
-    console.log(data)
+
     props.onSubmit(data);
   }
 
@@ -35,7 +37,8 @@ export default function PostModalWindowForm(props) {
         type='text'
         name='title'
         placeholder='Enter post title'
-        onChange={handleChange} />
+        onChange={handleChange}
+        value={values.title || ''} />
       <label>Upload file</label>
       <input
         className="modal-window-form_input"
